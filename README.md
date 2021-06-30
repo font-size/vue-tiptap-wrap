@@ -1,5 +1,7 @@
 # vue-tiptap-wrap
 
+![editor](./src/img/editor.png)
+
 ## start
 
 ```

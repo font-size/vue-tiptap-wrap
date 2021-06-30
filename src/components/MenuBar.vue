@@ -2,9 +2,10 @@
   <div>
     <template v-for="(item, index) in items">
       <div class="divider" v-if="item.type === 'divider'" :key="index" />
-      <uploadfile
+      <template v-else-if="item.type === 'upload'">
+        <uploadfile
         :key="index"
-        v-else-if="item.type === 'upload' && action"
+        v-if="action"
         :action="action"
         :headers="headers"
         :params="params"
@@ -13,6 +14,7 @@
       >
         <menu-item v-bind="item" />
       </uploadfile>
+      </template>
       <menu-item v-else :key="index" v-bind="item" />
     </template>
   </div>
@@ -213,7 +215,7 @@ export default {
 .divider {
   width: 2px;
   height: 1.25rem;
-  background-color: rgba(#000, 0.1);
+  background-color: rgba(0,0,0, 0.1);
   margin-left: 0.5rem;
   margin-right: 0.75rem;
 }

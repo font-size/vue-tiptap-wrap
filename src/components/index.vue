@@ -208,6 +208,10 @@ export default {
   height: 95%;
   line-height: normal;
 }
+.ProseMirror blockquote {
+    border-left: 2px solid rgba(13,13,13,.1);
+    padding-left: 1rem;
+}
   .ProseMirror:focus {
     outline: none;
   }
@@ -225,6 +229,13 @@ export default {
   .ProseMirror ul,
   .ProseMirror ol {
     padding: 0 1rem;
+  }
+  .ProseMirror ul {
+    list-style: disc;
+  }
+
+  .ProseMirror ol {
+    list-style: decimal;
   }
 
   .ProseMirror h1,

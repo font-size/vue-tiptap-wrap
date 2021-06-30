@@ -66,7 +66,7 @@ export default {
   background-color: #0d0d0d;
 }
   
-.menu-item.customIcon {
+.menu-item .customIcon {
   display: flex;
   flex-direction: column;
   justify-content: center;
