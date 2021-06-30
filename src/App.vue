@@ -15,12 +15,12 @@ export default {
   data() {
     return {
       msg: '',
-      action: '',
+      action: 'yourAction',
       headers: {
-        Authorization: '',
+        Authorization: 'yourAuthorization',
       },
       params: {
-        storeId: '123',
+        storeId: '001',
       },
       accept: 'image/*',
     }
