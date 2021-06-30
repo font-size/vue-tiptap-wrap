@@ -1,6 +1,10 @@
 # vue-tiptap-wrap
 
-![editor](./src/img/editor.png)
+[![npm](https://img.shields.io/npm/dt/vue-tiptap-wrap)](https://www.npmjs.com/package/vue-tiptap-wrap)
+[![npm](https://img.shields.io/npm/dw/vue-tiptap-wrap)](https://www.npmjs.com/package/vue-tiptap-wrap)
+[![npm](https://img.shields.io/npm/v/vue-tiptap-wrap)](https://www.npmjs.com/package/vue-tiptap-wrap)
+
+![editor](./img/editor.png)
 
 ## start
 
