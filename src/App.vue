@@ -1,12 +1,11 @@
 <template>
   <div id="app">
-    {{msg}}
-    <tiptap v-model="msg" :height="750" />
+    <tiptap v-model="msg" :setImage="setImage" :action="action" :headers="headers" :params="params" :accept="accept"/>
   </div>
 </template>
 
 <script>
-import tiptap from './components/tiptap/index'
+import tiptap from './components/index'
 
 export default {
   name: 'App',
@@ -15,11 +14,21 @@ export default {
   },
   data() {
     return {
-      msg: '123'
+      msg: '',
+      action: '',
+      headers: {
+        Authorization: '',
+      },
+      params: {
+        storeId: '123',
+      },
+      accept: 'image/*',
+    }
+  },
+  methods:{
+    setImage(editor, data) {
+      editor.chain().focus().setImage({ src: data.data.file_url }).run();
     }
   }
 }
 </script>
-
-<style>
-</style>

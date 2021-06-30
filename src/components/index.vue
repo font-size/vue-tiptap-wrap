@@ -7,8 +7,8 @@
         height: height + 'px',
       }"
     >
-      <menu-bar class="editor__header" :editor="editor" />
-      <editor-content class="editor__content" :editor="editor" ref="editor" />
+      <menu-bar class="editor__header" :editor="editor" :action="action" :setImage="setImage" :headers="headers" :params="params" :accept="accept"/>
+      <editor-content class="editor__content" :editor="editor" />
     </div>
   </div>
 </template>
@@ -18,7 +18,7 @@ import { Editor, EditorContent } from '@tiptap/vue-2';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Links from '@tiptap/extension-link';
-// 表格相关
+// Table components
 import Table from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
@@ -31,7 +31,7 @@ import TableHeader from '@tiptap/extension-table-header';
 
 import MenuBar from './MenuBar.vue';
 
-// 表格函数
+// Table fucntion
 const CustomTableCell = TableCell.extend({
   addAttributes() {
     return {
@@ -66,7 +66,6 @@ export default {
   data() {
     return {
       editor: null,
-      widthType: '1',
     };
   },
 
@@ -77,11 +76,27 @@ export default {
     },
     height: {
       type: Number,
-      default: 500,
+      default: 400,
     },
-    width: {
-      type: Number,
-      default: 0,
+    setImage: {
+      type: Function,
+      default: () => {},
+    },
+    action: {
+      type: String,
+      default: '',
+    },
+    headers: {
+      type: Object,
+      default: () => {},
+    },
+    params: {
+      type: Object,
+      default: () => {},
+    },
+    accept: {
+      type: String,
+      default: '',
     },
   },
 
@@ -133,17 +148,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 .editor {
   display: flex;
   flex-direction: column;
-  // max-height: 400px;
   color: #0d0d0d;
   background-color: #fff;
   border: 1px solid #dcdfe6;
   border-radius: 0.75rem;
-
-  &__header {
+}
+  .editor__header {
     display: flex;
     align-items: center;
     flex: 0 0 auto;
@@ -152,17 +166,16 @@ export default {
     border-bottom: 1px solid #dcdfe6;
   }
 
-  &__content {
+  .editor__content {
     padding: 0.25rem 0.25rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-}
 </style>
 
-<style lang="scss">
+<style>
 /* Give a remote user a caret */
 .collaboration-cursor__caret {
   position: relative;
@@ -193,91 +206,75 @@ export default {
 /* Basic editor styles */
 .ProseMirror {
   height: 95%;
-  > * + * {
-    margin-top: 0.75rem;
-  }
   line-height: normal;
-  p {
+}
+  .ProseMirror:focus {
+    outline: none;
+  }
+  
+  .ProseMirror p {
     margin-top: 0;
   }
-  a {
+  .ProseMirror a {
     cursor: pointer;
     color: #409eff;
-    &:hover {
-      text-decoration: underline;
-    }
   }
-  ul,
-  ol {
+  .ProseMirror a:hover {
+      text-decoration: underline;
+  }
+  .ProseMirror ul,
+  .ProseMirror ol {
     padding: 0 1rem;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  .ProseMirror h1,
+  .ProseMirror h2,
+  .ProseMirror h3,
+  .ProseMirror h4,
+  .ProseMirror h5,
+  .ProseMirror h6 {
     line-height: 1.1;
   }
 
-  code {
+  .ProseMirror code {
     background-color: rgba(#616161, 0.1);
     color: #616161;
   }
 
-  pre {
+  .ProseMirror pre {
     background: #0d0d0d;
     color: #fff;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-    }
   }
-
-  mark {
+  .ProseMirror pre code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+  }
+  .ProseMirror mark {
     background-color: #faf594;
   }
 
-  img {
+  .ProseMirror img {
     max-width: 100%;
     height: auto;
   }
 
-  hr {
+  .ProseMirror hr {
     margin: 1rem 0;
   }
 
-  blockquote {
+  .ProseMirror blockquote {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0d0d0d, 0.1);
   }
 
-  hr {
+  .ProseMirror hr {
     border: none;
     border-top: 2px solid rgba(#0d0d0d, 0.1);
     margin: 2rem 0;
   }
-
-  ul[data-type='taskList'] {
-    list-style: none;
-    padding: 0;
-
-    li {
-      display: flex;
-      align-items: center;
-
-      > label {
-        flex: 0 0 auto;
-        margin-right: 0.5rem;
-      }
-    }
-  }
-}
 </style>

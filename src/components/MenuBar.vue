@@ -4,14 +4,11 @@
       <div class="divider" v-if="item.type === 'divider'" :key="index" />
       <uploadfile
         :key="index"
-        v-else-if="item.type === 'img-upload'"
+        v-else-if="item.type === 'upload' && action"
         :action="action"
-        :Authorization="Authorization"
-        :storeId="storeId"
-        :type="type"
-        :isEditorBar="true"
-        :autoUpload="true"
-        :showFileList="false"
+        :headers="headers"
+        :params="params"
+        :accept="accept"
         @upload="uploadSuccess"
       >
         <menu-item v-bind="item" />
@@ -36,23 +33,40 @@ export default {
       type: Object,
       required: true,
     },
+
+    action: {
+      type: String,
+      default: '',
+    },
+    headers: {
+      type: Object,
+      default: () => {},
+    },
+    params: {
+      type: Object,
+      default: () => {},
+    },
+    accept: {
+      type: String,
+      default: '',
+    },
+    setImage: {
+      type: Function,
+      default: () => {},
+    }
   },
 
   data() {
     return {
-      action: process.env.VUE_APP_BASE_API + 'pms/file/upload',
-      Authorization: localStorage.getItem('loginToken'),
-      storeId: localStorage.getItem('store_id'),
-      type: ['image/png', 'image/jpeg', 'image/jpg'],
       items: [
         {
           icon: 'arrow-go-back-line',
-          title: '撤销',
+          title: 'Undo',
           action: () => this.editor.chain().focus().undo().run(),
         },
         {
           icon: 'arrow-go-forward-line',
-          title: '取消撤销',
+          title: 'Redo',
           action: () => this.editor.chain().focus().redo().run(),
         },
         {
@@ -60,35 +74,27 @@ export default {
         },
         {
           icon: 'bold',
-          title: '加粗',
+          title: 'Bold',
           action: () => this.editor.chain().focus().toggleBold().run(),
           isActive: () => this.editor.isActive('bold'),
         },
         {
           icon: 'italic',
-          title: '斜体',
+          title: 'Italic',
           action: () => this.editor.chain().focus().toggleItalic().run(),
           isActive: () => this.editor.isActive('italic'),
         },
         {
           icon: 'strikethrough',
-          title: '删除线',
+          title: 'Strike',
           action: () => this.editor.chain().focus().toggleStrike().run(),
           isActive: () => this.editor.isActive('strike'),
         },
         {
           icon: 'link',
-          title: '超链接',
+          title: 'Link',
           action: this.setLink,
           isActive: () => this.editor.isActive('link'),
-        },
-        {
-          type: 'divider',
-        },
-        {
-          icon: 'gallery-upload-line',
-          title: '上传图片',
-          type: 'img-upload',
         },
         {
           type: 'divider',
@@ -129,36 +135,36 @@ export default {
           action: () => this.editor.chain().focus().toggleHeading({ level: 6 }).run(),
           isActive: () => this.editor.isActive('heading', { level: 6 }),
         },
-        // {
-        //   icon: 'paragraph',
-        //   title: 'Paragraph',
-        //   action: () => this.editor.chain().focus().setParagraph().run(),
-        //   isActive: () => this.editor.isActive('paragraph'),
-        // },
+        {
+          icon: 'paragraph',
+          title: 'Paragraph',
+          action: () => this.editor.chain().focus().setParagraph().run(),
+          isActive: () => this.editor.isActive('paragraph'),
+        },
         {
           icon: 'list-unordered',
-          title: '无序列表',
+          title: 'BulletList',
           action: () => this.editor.chain().focus().toggleBulletList().run(),
           isActive: () => this.editor.isActive('bulletList'),
         },
         {
           icon: 'list-ordered',
-          title: '有序列表',
+          title: 'OrderedList',
           action: () => this.editor.chain().focus().toggleOrderedList().run(),
           isActive: () => this.editor.isActive('orderedList'),
         },
-        // {
-        //   icon: 'code-box-line',
-        //   title: 'Code Block',
-        //   action: () => this.editor.chain().focus().toggleCodeBlock().run(),
-        //   isActive: () => this.editor.isActive('codeBlock'),
-        // },
+        {
+          icon: 'code-box-line',
+          title: 'Code Block',
+          action: () => this.editor.chain().focus().toggleCodeBlock().run(),
+          isActive: () => this.editor.isActive('codeBlock'),
+        },
         {
           type: 'divider',
         },
         {
           icon: 'double-quotes-l',
-          title: '引用',
+          title: 'Blockquote',
           action: () => this.editor.chain().focus().toggleBlockquote().run(),
           isActive: () => this.editor.isActive('blockquote'),
         },
@@ -167,27 +173,33 @@ export default {
         },
         {
           icon: 'text-wrap',
-          title: '换行',
+          title: 'Wrap',
           action: () => this.editor.chain().focus().setHardBreak().run(),
         },
         {
           icon: 'format-clear',
-          title: '清除格式',
+          title: 'Format',
           action: () => this.editor.chain().focus().clearNodes().unsetAllMarks().run(),
+        },
+        {
+          icon: 'gallery-upload-line',
+          title: 'Upload images',
+          type: 'upload',
+          customIcon: 'el-icon-picture'
         },
       ],
     };
   },
   methods: {
     uploadSuccess(data) {
-      this.editor.chain().focus().setImage({ src: data.file_url }).run();
-      // this.editor.commands.insertContent(`<a href='${data.file_url}'>1234567654321</a>`);
+      this.setImage(this.editor, data)
+      // this.editor.chain().focus().setImage({ src: data.file_url }).run();
     },
     setLink() {
       if (this.editor.isActive('link')) {
         this.editor.chain().focus().unsetLink().run();
       } else {
-        const url = window.prompt('请输入URL');
+        const url = window.prompt('URL');
         if (url && url.trim()) {
           this.editor.chain().focus().setLink({ href: url }).run();
         }
@@ -197,7 +209,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 .divider {
   width: 2px;
   height: 1.25rem;

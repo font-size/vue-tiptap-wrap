@@ -1,8 +1,11 @@
 <template>
   <div class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action" :title="title">
-    <svg class="remix">
-      <use :xlink:href="require('./menuBar.svg') + `#ri-${icon}`" />
-    </svg>
+    <slot>
+      <i v-if="customIcon" :class="customIcon" class="customIcon"></i>
+      <svg class="remix" v-else>
+        <use :xlink:href="require('./menuBar.svg') + `#ri-${icon}`" />
+      </svg>
+    </slot>
   </div>
 </template>
 
@@ -31,11 +34,15 @@ export default {
     type: {
       type: String,
     },
+
+    customIcon: {
+      type: String,
+    }
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 .menu-item {
   width: 1.75rem;
   height: 1.75rem;
@@ -46,24 +53,23 @@ export default {
   padding: 0.25rem;
   margin-right: 0.25rem;
   display: flex;
-
-  svg {
-    width: 100%;
-    height: 100%;
-    fill: currentColor;
-  }
-
-  &.is-active,
-  &:hover {
-    color: #fff;
-    background-color: #0d0d0d;
-  }
-
-  .el-icon-picture {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 20px;
-  }
+  justify-content: center;
+}
+.menu-item svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+  
+.menu-item.is-active, .menu-item.is-active:hover {
+  color: #fff;
+  background-color: #0d0d0d;
+}
+  
+.menu-item.customIcon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 24px;
 }
 </style>
