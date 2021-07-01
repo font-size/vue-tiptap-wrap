@@ -10,7 +10,6 @@
 
 ```
 npm i vue-tiptap-wrap
-
 ```
 
 and in your page
@@ -61,3 +60,7 @@ see upload params detail in ElementUI
 
 <a href="https://www.tiptap.dev/" target="_blank">https://www.tiptap.dev/</a><br>
 <a href="https://element.eleme.cn/#/en-US/component/upload" target="_blank">https://element.eleme.cn/</a><br>
+
+## License
+
+MIT
