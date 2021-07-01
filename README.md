@@ -17,7 +17,7 @@ and in your page
 ```
 import tiptap from 'vue-tiptap-wrap'
 
-<tiptap v-model="msg">
+<tiptap v-model="msg"/>
 ```
 
 ## upload
