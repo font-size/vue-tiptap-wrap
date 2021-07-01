@@ -25,9 +25,7 @@ import tiptap from 'vue-tiptap-wrap'
 if you want to upload images
 
 ```
-
 <tiptap v-model="msg" :setImage="setImage" :action="action" :headers="headers" :params="params" :accept="accept"/>
-
 ```
 
 example
