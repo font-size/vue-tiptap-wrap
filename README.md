@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/dw/vue-tiptap-wrap)](https://www.npmjs.com/package/vue-tiptap-wrap)
 [![npm](https://img.shields.io/npm/v/vue-tiptap-wrap)](https://www.npmjs.com/package/vue-tiptap-wrap)
 
-![editor](./img/editor.png)
+![editor](https://raw.githubusercontent.com/font-size/vue-tiptap-wrap/main/img/editor.png)
 
 ## start
 
